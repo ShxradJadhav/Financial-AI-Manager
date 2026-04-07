@@ -7,6 +7,7 @@ A production-ready **Retrieval-Augmented Generation (RAG)** system built to inge
 **Tech:** FastAPI | MySQL (Local) | PostgreSQL (Cloud) | Qdrant Vector DB | LangChain
 
 ---
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/8949a384-3df4-49c0-8a3d-3ca787c7a5d8" />
 
 ## 📌 Project Overview
 This project solves the "Keyword Gap" in financial analysis. Instead of just searching for exact words, this system uses **Vector Embeddings** to understand financial context.
