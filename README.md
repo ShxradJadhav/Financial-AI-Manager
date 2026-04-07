@@ -1,81 +1,66 @@
-🚀 AI-Powered Financial Document Manager (RAG)
+# 🚀 Financial-AI-Manager (RAG Backend)
 
-A production-ready Retrieval-Augmented Generation (RAG) backend system designed to ingest, store, and intelligently search through complex financial documents.
+A production-ready **Retrieval-Augmented Generation (RAG)** system built to ingest, store, and intelligently search financial documents using Semantic AI.
 
-Live API Documentation: https://financial-ai-manager.onrender.com/docs
+**Live Link:** [https://financial-ai-manager.onrender.com/docs](https://financial-ai-manager.onrender.com/docs)  
+**Developer:** Sharad Jadhav  
+**Tech:** FastAPI | MySQL (Local) | PostgreSQL (Cloud) | Qdrant Vector DB | LangChain
 
-Author: Sharad Jadhav
+---
 
-Tech Stack: FastAPI, MySQL (Local), PostgreSQL (Cloud), Qdrant Vector DB, LangChain, HuggingFace.
+## 📌 Project Overview
+This project solves the "Keyword Gap" in financial analysis. Instead of just searching for exact words, this system uses **Vector Embeddings** to understand financial context.
 
-📌 The Problem Statement
+### Key Features:
+- **Semantic Search:** Searching for "borrowing issues" will find documents containing "liquidity crisis" or "high leverage."
+- **Polyglot Persistence:** Uses **SQL** for structured metadata and **Vector DB** for unstructured text meaning.
+- **Auto-Documentation:** Built-in Swagger UI for easy API testing.
 
-Financial analysts often struggle with "Keyword Search" limitations. For example, searching for "Financial Trouble" won't find a document that only uses the word "Liquidity Crisis."
+---
 
-The Goal: Build a system that understands the meaning of financial text (Semantic Search) while maintaining a structured database for metadata (Titles, Companies, Upload Dates).
+## 🏗️ System Architecture
+The data flows through a modern AI pipeline:
 
-🛠️ System Architecture (The "How")
+1. **Ingestion Layer:** FastAPI receives the document title, company, and content.
+2. **Database Sink (SQL):** Metadata is stored in **PostgreSQL** (Render) or **MySQL** (Local).
+3. **Embedding Engine:** `BAAI/bge-small-en-v1.5` turns text into 384-dimensional vectors.
+4. **Vector Store:** Vectors are indexed in **Qdrant** for high-speed similarity searching.
 
-I implemented a Polyglot Persistence architecture to handle two types of data:
 
-Structured Metadata (MySQL/PostgreSQL): Stores document ID, title, company name, and timestamps.
 
-Unstructured Vectors (Qdrant): Stores "Embeddings" (mathematical representations) of the document content.
+---
 
-The Pipeline:
+## 🛠️ Tech Stack & Skills
+- **Framework:** FastAPI (Python)
+- **Database:** MySQL, SQLAlchemy ORM, PostgreSQL
+- **AI/ML:** LangChain, HuggingFace Embeddings, Sentence-Transformers
+- **Vector Store:** Qdrant (Local & Cloud-ready)
+- **DevOps:** Git, GitHub, Render (Cloud Deployment)
 
-Ingestion: User uploads a document via a FastAPI POST endpoint.
+---
 
-Embedding: The system uses the BAAI/bge-small-en-v1.5 model to turn text into a 384-dimensional vector.
+## 🚧 Challenges Faced & Problem Solving
 
-Storage: Metadata is saved to SQL; Vectors are indexed in Qdrant.
+### 1. Database Portability (MySQL to Postgres)
+* **Problem:** Developed locally on MySQL, but cloud providers use PostgreSQL.
+* **Solution:** Rewrote `database.py` to use dynamic environment variables (`DATABASE_URL`) and added logic to automatically fix URI prefixes for SQLAlchemy compatibility.
 
-Retrieval (RAG): When a user searches, the query is vectorized and compared against the Qdrant index using Cosine Similarity.
+### 2. Cold-Start Model Loading
+* **Problem:** The 500MB AI model caused the server to time out on the first request.
+* **Solution:** Increased Uvicorn timeout settings and implemented a "Lazy Loading" strategy for the HuggingFace model.
 
-🚀 Deployment & DevOps
+### 3. Dependency Conflicts
+* **Problem:** Python 3.14.x on the cloud had conflicts with older AI libraries.
+* **Solution:** Optimized `requirements.txt` to use `psycopg2-binary` and forced specific versions of `torch` to fit within Render's free-tier RAM limits.
 
-This project is fully containerized and deployed using a CI/CD pipeline from GitHub to Render.com.
+---
 
-Database: Provisioned a Managed PostgreSQL instance in the cloud.
+## 🚀 How to Run Locally
 
-Environment Variables: Used DATABASE_URL to securely switch between local development and production.
-
-Performance: Configured Uvicorn with a 120s timeout to handle heavy AI model loading on cold starts.
-
-🚧 Challenges & Solutions
-
-Problem
-
-Solution
-
-500 Internal Server Errors
-
-Implemented detailed try-except logging and fixed folder permission issues for the vector store.
-
-Cloud DB Mismatch
-
-Developed a dynamic database.py that auto-switches from MySQL (Local) to PostgreSQL (Cloud) using URI prefix replacement.
-
-Dependency Weight
-
-Optimized requirements.txt to include psycopg2-binary for Linux deployment while keeping PyTorch CPU-only to fit free-tier limits.
-
-✅ Key Outcomes
-
-Semantic Accuracy: The system can link concepts like "Debt" to "Leverage" with 90%+ similarity.
-
-Scalability: Ready to be moved to Azure Cognitive Search or AWS Kendra for enterprise-scale data.
-
-Professional API: Automatic interactive documentation via Swagger UI.
-
-🏃 How to Run Locally
-
-Clone the repo: git clone https://github.com/ShxradJadhav/Financial-AI-Manager.git
-
-Create VENV: python -m venv venv
-
-Activate: .\venv\Scripts\activate
-
-Install: pip install -r requirements.txt
-
-Run: uvicorn main:app --reload
+1. **Clone & Setup:**
+   ```bash
+   git clone [https://github.com/ShxradJadhav/Financial-AI-Manager.git](https://github.com/ShxradJadhav/Financial-AI-Manager.git)
+   cd Financial-AI-Manager
+   python -m venv venv
+   .\venv\Scripts\activate
+   pip install -r requirements.txt
