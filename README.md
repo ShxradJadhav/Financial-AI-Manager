@@ -9,6 +9,8 @@ A production-ready **Retrieval-Augmented Generation (RAG)** system built to inge
 ---
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/8949a384-3df4-49c0-8a3d-3ca787c7a5d8" />
 
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/d82227b4-ad4d-49a2-9dcc-4302c6185deb" />
+
 ## 📌 Project Overview
 This project solves the "Keyword Gap" in financial analysis. Instead of just searching for exact words, this system uses **Vector Embeddings** to understand financial context.
 
