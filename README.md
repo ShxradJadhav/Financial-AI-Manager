@@ -3,7 +3,8 @@
 A production-ready **Retrieval-Augmented Generation (RAG)** system built to ingest, store, and intelligently search financial documents using Semantic AI.
 
 **Live Link:** [https://financial-ai-manager.onrender.com/docs](https://financial-ai-manager.onrender.com/docs)  
-- **Interactive Documentation:** http://127.0.0.1:8000/docs#/
+**Interactive Documentation:** http://127.0.0.1:8000/docs#/
+
 **Developer:** Sharad Jadhav  
 **Tech:** FastAPI | MySQL (Local) | PostgreSQL (Cloud) | Qdrant Vector DB | LangChain
 
