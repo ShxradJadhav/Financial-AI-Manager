@@ -1,16 +1,24 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# IMPORTANT: Change 'your_password' to your actual MySQL root password!
-# If your MySQL port is not 3306, change that too.
-# Change 'root' to 'root' if that is your password
-SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:root@localhost:3306/finance_db"
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+# 1. Get the URL from Render's environment variable
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+# 2. If no Cloud URL, use your local MySQL
+if not DATABASE_URL:
+    # Change 'root:root' to your local password if different
+    DATABASE_URL = "mysql+pymysql://root:root@localhost:3306/finance_db"
+
+# 3. SQLAlchemy fix: Render gives 'postgres://', but SQLAlchemy needs 'postgresql://'
+if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
+engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-# This helper gets a connection to the DB and closes it when done
 def get_db():
     db = SessionLocal()
     try:
